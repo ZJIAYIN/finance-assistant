@@ -1,0 +1,259 @@
+{
+  "crawl_time": "2026-04-19T17:01:49.341798",
+  "date": "2026-04-19",
+  "indices": [
+    {
+      "code": "000001",
+      "name": "上证指数",
+      "price": 4051.43,
+      "change_pct": -0.1,
+      "change": -4.12,
+      "volume": 548791406,
+      "amount": 1013520660231.1,
+      "type": "index"
+    },
+    {
+      "code": "399001",
+      "name": "深证成指",
+      "price": 14885.42,
+      "change_pct": 0.6,
+      "change": 89.09,
+      "volume": 695914499,
+      "amount": 1412063032872.2705,
+      "type": "index"
+    },
+    {
+      "code": "399006",
+      "name": "创业板指",
+      "price": 3678.29,
+      "change_pct": 1.43,
+      "change": 52.02,
+      "volume": 219975627,
+      "amount": 688725213658.36,
+      "type": "index"
+    },
+    {
+      "code": "000300",
+      "name": "沪深300",
+      "price": 4728.67,
+      "change_pct": -0.17,
+      "change": -7.94,
+      "volume": 182915336,
+      "amount": 587622682307.9,
+      "type": "index"
+    },
+    {
+      "code": "399005",
+      "name": "中小100",
+      "price": 9027.86,
+      "change_pct": 0.12,
+      "change": 10.61,
+      "volume": 49070166,
+      "amount": 175423260421.52,
+      "type": "index"
+    }
+  ],
+  "sectors": [
+    {
+      "code": "BK0816",
+      "name": "昨日连板",
+      "price": 6944.77,
+      "change_pct": 7.09,
+      "change": 460.04,
+      "volume": 2794711,
+      "amount": 5236415736.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1645",
+      "name": "昨日打二板以上表现",
+      "price": 1948.87,
+      "change_pct": 6.76,
+      "change": 123.48,
+      "volume": 9320015,
+      "amount": 12283483725.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1136",
+      "name": "光通信模块",
+      "price": 3548.56,
+      "change_pct": 4.61,
+      "change": 156.44,
+      "volume": 45829894,
+      "amount": 271413722630.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1051",
+      "name": "昨日连板_含一字",
+      "price": 7299.79,
+      "change_pct": 4.58,
+      "change": 319.65,
+      "volume": 6439027,
+      "amount": 11508382291.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1175",
+      "name": "玻璃基板",
+      "price": 2339.92,
+      "change_pct": 4.49,
+      "change": 100.5,
+      "volume": 14638218,
+      "amount": 42742664001.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1128",
+      "name": "CPO概念",
+      "price": 7878.82,
+      "change_pct": 4.44,
+      "change": 334.66,
+      "volume": 25305310,
+      "amount": 225793970099.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1325",
+      "name": "半导体材料",
+      "price": 9472.74,
+      "change_pct": 4.29,
+      "change": 389.87,
+      "volume": 4127850,
+      "amount": 19087118221.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1304",
+      "name": "锂电专用设备",
+      "price": 28845.97,
+      "change_pct": 4.11,
+      "change": 1138.33,
+      "volume": 3271370,
+      "amount": 12542436754.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1614",
+      "name": "铅锌",
+      "price": 2869.8,
+      "change_pct": 4.0,
+      "change": 110.34,
+      "volume": 8689914,
+      "amount": 11109072500.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1411",
+      "name": "非金属材料Ⅲ",
+      "price": 2112.63,
+      "change_pct": 3.92,
+      "change": 79.63,
+      "volume": 1040034,
+      "amount": 3946457126.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1020",
+      "name": "非金属材料Ⅱ",
+      "price": 2112.63,
+      "change_pct": 3.92,
+      "change": 79.63,
+      "volume": 1040034,
+      "amount": 3946457126.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1409",
+      "name": "激光设备",
+      "price": 16561.46,
+      "change_pct": 3.9,
+      "change": 621.21,
+      "volume": 2586148,
+      "amount": 20739339387.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1317",
+      "name": "光伏加工设备",
+      "price": 9118.2,
+      "change_pct": 3.73,
+      "change": 327.84,
+      "volume": 2116207,
+      "amount": 11695564225.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1591",
+      "name": "通信网络设备及器件",
+      "price": 14712.38,
+      "change_pct": 3.68,
+      "change": 522.3,
+      "volume": 9855289,
+      "amount": 136604872345.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1332",
+      "name": "电子化学品Ⅲ",
+      "price": 2703.06,
+      "change_pct": 3.64,
+      "change": 94.81,
+      "volume": 6127834,
+      "amount": 21937650705.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1039",
+      "name": "电子化学品Ⅱ",
+      "price": 2703.06,
+      "change_pct": 3.64,
+      "change": 94.81,
+      "volume": 6127834,
+      "amount": 21937650705.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1415",
+      "name": "其他化学纤维",
+      "price": 3554.19,
+      "change_pct": 3.61,
+      "change": 123.95,
+      "volume": 1310960,
+      "amount": 2775319547.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK0890",
+      "name": "MLCC",
+      "price": 3504.81,
+      "change_pct": 3.51,
+      "change": 119.0,
+      "volume": 4584178,
+      "amount": 20559172019.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1113",
+      "name": "复合集流体",
+      "price": 1706.29,
+      "change_pct": 3.51,
+      "change": 57.82,
+      "volume": 9352066,
+      "amount": 20146105292.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1439",
+      "name": "膜材料",
+      "price": 3795.19,
+      "change_pct": 3.39,
+      "change": 124.31,
+      "volume": 9554229,
+      "amount": 13059997111.0,
+      "type": "sector"
+    }
+  ],
+  "news": []
+}
