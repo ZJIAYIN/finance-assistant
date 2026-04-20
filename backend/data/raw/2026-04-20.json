@@ -1,0 +1,330 @@
+{
+  "crawl_time": "2026-04-20T09:46:45.309259",
+  "date": "2026-04-20",
+  "indices": [
+    {
+      "code": "000001",
+      "name": "上证指数",
+      "price": 4066.01,
+      "change_pct": 0.36,
+      "change": 14.58,
+      "volume": 140591696,
+      "amount": 265872682617.5,
+      "type": "index"
+    },
+    {
+      "code": "399001",
+      "name": "深证成指",
+      "price": 14926.13,
+      "change_pct": 0.27,
+      "change": 40.71,
+      "volume": 178990470,
+      "amount": 372636218834.8004,
+      "type": "index"
+    },
+    {
+      "code": "399006",
+      "name": "创业板指",
+      "price": 3663.66,
+      "change_pct": -0.4,
+      "change": -14.63,
+      "volume": 51014674,
+      "amount": 170076387782.26,
+      "type": "index"
+    },
+    {
+      "code": "000300",
+      "name": "沪深300",
+      "price": 4739.73,
+      "change_pct": 0.23,
+      "change": 11.06,
+      "volume": 46229624,
+      "amount": 144467678035.8,
+      "type": "index"
+    },
+    {
+      "code": "399005",
+      "name": "中小100",
+      "price": 9067.71,
+      "change_pct": 0.44,
+      "change": 39.85,
+      "volume": 12904870,
+      "amount": 47781390123.88,
+      "type": "index"
+    }
+  ],
+  "sectors": [
+    {
+      "code": "BK1298",
+      "name": "文字媒体",
+      "price": 3127.83,
+      "change_pct": 4.26,
+      "change": 127.69,
+      "volume": 321073,
+      "amount": 932416667.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1592",
+      "name": "通信线缆及配套",
+      "price": 26232.61,
+      "change_pct": 4.25,
+      "change": 1068.26,
+      "volume": 4020436,
+      "amount": 16644293965.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1415",
+      "name": "其他化学纤维",
+      "price": 3687.84,
+      "change_pct": 3.76,
+      "change": 133.65,
+      "volume": 526161,
+      "amount": 1975807820.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1383",
+      "name": "航海装备Ⅲ",
+      "price": 5898.24,
+      "change_pct": 3.64,
+      "change": 207.25,
+      "volume": 1251874,
+      "amount": 3572491477.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1230",
+      "name": "航海装备Ⅱ",
+      "price": 5898.24,
+      "change_pct": 3.64,
+      "change": 207.25,
+      "volume": 1251874,
+      "amount": 3572491477.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1368",
+      "name": "钢铁管材",
+      "price": 780.57,
+      "change_pct": 3.6,
+      "change": 27.11,
+      "volume": 877298,
+      "amount": 443755497.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK0729",
+      "name": "船舶制造",
+      "price": 1418.01,
+      "change_pct": 3.53,
+      "change": 48.32,
+      "volume": 3407967,
+      "amount": 4362241652.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1360",
+      "name": "金融信息服务",
+      "price": 5683.04,
+      "change_pct": 3.47,
+      "change": 190.63,
+      "volume": 444517,
+      "amount": 830931258.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1051",
+      "name": "昨日连板_含一字",
+      "price": 7545.51,
+      "change_pct": 3.37,
+      "change": 245.72,
+      "volume": 4235911,
+      "amount": 8702418958.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1467",
+      "name": "耐火材料",
+      "price": 2441.94,
+      "change_pct": 3.25,
+      "change": 76.96,
+      "volume": 456359,
+      "amount": 501233093.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1412",
+      "name": "氨纶",
+      "price": 2773.22,
+      "change_pct": 3.25,
+      "change": 87.21,
+      "volume": 73046,
+      "amount": 80031114.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1645",
+      "name": "昨日打二板以上表现",
+      "price": 2007.3,
+      "change_pct": 3.0,
+      "change": 58.43,
+      "volume": 1925825,
+      "amount": 4175962207.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1050",
+      "name": "昨日涨停_含一字",
+      "price": 38651.71,
+      "change_pct": 2.93,
+      "change": 1099.27,
+      "volume": 23577471,
+      "amount": 47521882738.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK0816",
+      "name": "昨日连板",
+      "price": 7145.6,
+      "change_pct": 2.89,
+      "change": 200.83,
+      "volume": 4210369,
+      "amount": 8640352311.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1625",
+      "name": "钨",
+      "price": 9137.9,
+      "change_pct": 2.87,
+      "change": 254.69,
+      "volume": 998904,
+      "amount": 4970657846.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1637",
+      "name": "东方财富热股",
+      "price": 1453.56,
+      "change_pct": 2.82,
+      "change": 39.81,
+      "volume": 45486923,
+      "amount": 134732068614.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK0674",
+      "name": "蓝宝石",
+      "price": 3950.49,
+      "change_pct": 2.8,
+      "change": 107.58,
+      "volume": 6844624,
+      "amount": 12424459957.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1630",
+      "name": "昨日首板",
+      "price": 1882.38,
+      "change_pct": 2.74,
+      "change": 50.29,
+      "volume": 17269556,
+      "amount": 33387627772.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK0815",
+      "name": "昨日涨停",
+      "price": 60923.11,
+      "change_pct": 2.74,
+      "change": 1622.61,
+      "volume": 23269578,
+      "amount": 46784997631.0,
+      "type": "sector"
+    },
+    {
+      "code": "BK1546",
+      "name": "电商服务",
+      "price": 2514.69,
+      "change_pct": 2.6,
+      "change": 63.81,
+      "volume": 254351,
+      "amount": 566305046.0,
+      "type": "sector"
+    }
+  ],
+  "news": [
+    {
+      "title": "【概念热点】电子板块 上涨 0.73%",
+      "summary": "板块最新价: 12007.63, 成交额: 16881477120000万",
+      "url": "https://quote.eastmoney.com/center/gridlist.html#concept_board",
+      "publish_time": "2026-04-20 09:47",
+      "type": "news"
+    },
+    {
+      "title": "【概念热点】银行板块 上涨 0.28%",
+      "summary": "板块最新价: 4152.57, 成交额: 15227400960000万",
+      "url": "https://quote.eastmoney.com/center/gridlist.html#concept_board",
+      "publish_time": "2026-04-20 09:47",
+      "type": "news"
+    },
+    {
+      "title": "【概念热点】银行Ⅱ板块 上涨 0.28%",
+      "summary": "板块最新价: 4152.57, 成交额: 15227400960000万",
+      "url": "https://quote.eastmoney.com/center/gridlist.html#concept_board",
+      "publish_time": "2026-04-20 09:47",
+      "type": "news"
+    },
+    {
+      "title": "【概念热点】国有大型银行Ⅲ板块 上涨 0.69%",
+      "summary": "板块最新价: 3052.35, 成交额: 10747819264000万",
+      "url": "https://quote.eastmoney.com/center/gridlist.html#concept_board",
+      "publish_time": "2026-04-20 09:47",
+      "type": "news"
+    },
+    {
+      "title": "【概念热点】电力设备板块 上涨 0.5%",
+      "summary": "板块最新价: 7430.97, 成交额: 9528125184000万",
+      "url": "https://quote.eastmoney.com/center/gridlist.html#concept_board",
+      "publish_time": "2026-04-20 09:47",
+      "type": "news"
+    },
+    {
+      "title": "【概念热点】半导体板块 上涨 0.13%",
+      "summary": "板块最新价: 2346.06, 成交额: 8564776448000万",
+      "url": "https://quote.eastmoney.com/center/gridlist.html#concept_board",
+      "publish_time": "2026-04-20 09:47",
+      "type": "news"
+    },
+    {
+      "title": "【概念热点】通信板块 上涨 0.7%",
+      "summary": "板块最新价: 8421.95, 成交额: 7273581824000万",
+      "url": "https://quote.eastmoney.com/center/gridlist.html#concept_board",
+      "publish_time": "2026-04-20 09:47",
+      "type": "news"
+    },
+    {
+      "title": "【概念热点】非银金融板块 上涨 0.05%",
+      "summary": "板块最新价: 2561.49, 成交额: 7110179328000万",
+      "url": "https://quote.eastmoney.com/center/gridlist.html#concept_board",
+      "publish_time": "2026-04-20 09:47",
+      "type": "news"
+    },
+    {
+      "title": "【概念热点】医药生物板块 下跌 0.19%",
+      "summary": "板块最新价: 4922.7, 成交额: 7053285376000万",
+      "url": "https://quote.eastmoney.com/center/gridlist.html#concept_board",
+      "publish_time": "2026-04-20 09:47",
+      "type": "news"
+    },
+    {
+      "title": "【概念热点】有色金属板块 上涨 0.97%",
+      "summary": "板块最新价: 30645.24, 成交额: 6524323072000万",
+      "url": "https://quote.eastmoney.com/center/gridlist.html#concept_board",
+      "publish_time": "2026-04-20 09:47",
+      "type": "news"
+    }
+  ]
+}

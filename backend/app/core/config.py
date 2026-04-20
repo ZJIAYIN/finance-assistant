@@ -39,6 +39,28 @@ class Settings(BaseSettings):
     CRAWL_TIME: str = "09:00"  # 每日更新时间
     DATA_SOURCE_URL: str = "https://quote.eastmoney.com/"
 
+    # 消息推送配置
+    # 钉钉机器人
+    DINGTALK_ENABLED: bool = False
+    DINGTALK_WEBHOOK: str = ""
+    DINGTALK_SECRET: str = ""
+    DINGTALK_AT_ALL: bool = False
+    DINGTALK_AT_MOBILES: str = ""  # 逗号分隔的手机号
+
+    # 企业微信机器人
+    WECHAT_WORK_ENABLED: bool = False
+    WECHAT_WORK_WEBHOOK: str = ""
+    WECHAT_WORK_MENTIONED: str = ""  # @all 或用户ID列表
+
+    # 邮件配置
+    EMAIL_ENABLED: bool = False
+    EMAIL_SMTP_HOST: str = ""
+    EMAIL_SMTP_PORT: int = 465
+    EMAIL_SMTP_USER: str = ""
+    EMAIL_SMTP_PASSWORD: str = ""
+    EMAIL_SENDER: str = ""
+    EMAIL_RECIPIENTS: str = ""  # 逗号分隔的邮箱
+
     class Config:
         env_file = ".env"
 
