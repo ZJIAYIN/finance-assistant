@@ -8,7 +8,6 @@ from datetime import datetime
 from typing import List, Dict, Any, Optional
 
 import requests
-from bs4 import BeautifulSoup
 
 from app.core.config import settings
 
@@ -107,10 +106,10 @@ class EastMoneyCrawler:
     def crawl_news(self) -> List[Dict[str, Any]]:
         """
         爬取财经新闻
-        通过东方财富财经要闻页面
+        通过东方财富概念板块API获取市场热点（替代新闻）
         """
         try:
-            # 使用东方财富概念板块API获取市场热点（替代新闻）
+            # 使用东方财富概念板块API获取市场热点
             url = "https://push2.eastmoney.com/api/qt/clist/get"
             params = {
                 "pn": "1",
@@ -142,7 +141,7 @@ class EastMoneyCrawler:
                         news_list.append({
                             "title": f"【概念热点】{name}板块 {change_text}",
                             "summary": f"板块最新价: {item.get('f2', '-')}, 成交额: {item.get('f20', '-')}万",
-                            "url": f"https://quote.eastmoney.com/center/gridlist.html#concept_board",
+                            "url": "https://quote.eastmoney.com/center/gridlist.html#concept_board",
                             "publish_time": datetime.now().strftime("%Y-%m-%d %H:%M"),
                             "type": "news"
                         })

@@ -8,14 +8,13 @@ from datetime import datetime, timedelta
 from typing import List, Dict, Any
 
 from app.services.rag_service import RAGService
-from app.services.llm_service import LLMService
 
 
 def format_index_data(index: Dict[str, Any]) -> str:
     """格式化指数数据为文本"""
     return f"""【大盘指数】{index.get('name', '')}({index.get('code', '')})
 当前价格: {index.get('price', '-')}
-涨跌幅: {index.get('change_pct', '-')}%
+涨跌幅: {index.get('change_pct', '-')}
 涨跌额: {index.get('change', '-')}
 成交量: {index.get('volume', '-')}
 成交额: {index.get('amount', '-')}"""
@@ -25,7 +24,7 @@ def format_sector_data(sector: Dict[str, Any]) -> str:
     """格式化板块数据为文本"""
     return f"""【板块行情】{sector.get('name', '')}
 当前点位: {sector.get('price', '-')}
-涨跌幅: {sector.get('change_pct', '-')}%
+涨跌幅: {sector.get('change_pct', '-')}
 涨跌额: {sector.get('change', '-')}
 成交量: {sector.get('volume', '-')}
 成交额: {sector.get('amount', '-')}"""

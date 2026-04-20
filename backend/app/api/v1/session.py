@@ -1,71 +1,32 @@
 """
 会话管理接口
 """
-from datetime import datetime
-from typing import List, Optional
-
+from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from app.core.database import get_db
-from app.core.security import get_current_user_id
-from app.models import ChatSession, Conversation
+from app.schemas import (
+    SessionCreate, SessionUpdate, SessionResponse,
+    SessionHistoryResponse, MessageResponse
+)
+from app.api.deps import get_db, get_current_user_id, get_session_repo, get_conversation_repo
+from app.repositories import SessionRepository, ConversationRepository
 
 router = APIRouter()
-
-
-# 请求/响应模型
-class SessionCreate(BaseModel):
-    session_name: Optional[str] = None
-
-
-class SessionUpdate(BaseModel):
-    session_name: str
-
-
-class SessionResponse(BaseModel):
-    id: int
-    session_name: str
-    created_at: datetime
-    updated_at: datetime
-    message_count: int = 0
-
-    class Config:
-        from_attributes = True
-
-
-class MessageResponse(BaseModel):
-    id: int
-    user_msg: str
-    assistant_msg: str
-    data_date: Optional[str]
-    created_at: datetime
-
-    class Config:
-        from_attributes = True
-
-
-class SessionHistoryResponse(BaseModel):
-    session: SessionResponse
-    messages: List[MessageResponse]
 
 
 @router.get("", response_model=List[SessionResponse])
 def list_sessions(
     user_id: int = Depends(get_current_user_id),
-    db: Session = Depends(get_db)
+    session_repo: SessionRepository = Depends(get_session_repo),
+    conversation_repo: ConversationRepository = Depends(get_conversation_repo)
 ):
     """获取用户的所有会话列表"""
-    sessions = db.query(ChatSession).filter(
-        ChatSession.user_id == user_id
-    ).order_by(ChatSession.updated_at.desc()).all()
+    sessions = session_repo.get_by_user(user_id)
 
     result = []
     for session in sessions:
-        msg_count = db.query(Conversation).filter(
-            Conversation.session_id == session.id
-        ).count()
+        msg_count = conversation_repo.count_by_session(session.id)
 
         result.append(SessionResponse(
             id=session.id,
@@ -85,6 +46,8 @@ def create_session(
     db: Session = Depends(get_db)
 ):
     """创建新会话"""
+    from app.models import ChatSession
+
     session_name = request.session_name or "新会话"
 
     session = ChatSession(
@@ -108,13 +71,11 @@ def create_session(
 def get_session_history(
     session_id: int,
     user_id: int = Depends(get_current_user_id),
-    db: Session = Depends(get_db)
+    session_repo: SessionRepository = Depends(get_session_repo),
+    conversation_repo: ConversationRepository = Depends(get_conversation_repo)
 ):
     """获取会话历史消息"""
-    session = db.query(ChatSession).filter(
-        ChatSession.id == session_id,
-        ChatSession.user_id == user_id
-    ).first()
+    session = session_repo.get_by_user_and_id(user_id, session_id)
 
     if not session:
         raise HTTPException(
@@ -122,10 +83,7 @@ def get_session_history(
             detail="会话不存在"
         )
 
-    messages = db.query(Conversation).filter(
-        Conversation.session_id == session_id
-    ).order_by(Conversation.created_at.asc()).all()
-
+    messages = conversation_repo.get_by_session(session_id, user_id)
     msg_count = len(messages)
 
     return SessionHistoryResponse(
@@ -151,13 +109,11 @@ def update_session(
     session_id: int,
     request: SessionUpdate,
     user_id: int = Depends(get_current_user_id),
-    db: Session = Depends(get_db)
+    session_repo: SessionRepository = Depends(get_session_repo),
+    conversation_repo: ConversationRepository = Depends(get_conversation_repo)
 ):
     """更新会话名称"""
-    session = db.query(ChatSession).filter(
-        ChatSession.id == session_id,
-        ChatSession.user_id == user_id
-    ).first()
+    session = session_repo.get_by_user_and_id(user_id, session_id)
 
     if not session:
         raise HTTPException(
@@ -166,12 +122,10 @@ def update_session(
         )
 
     session.session_name = request.session_name
-    db.commit()
-    db.refresh(session)
+    session_repo.db.commit()
+    session_repo.db.refresh(session)
 
-    msg_count = db.query(Conversation).filter(
-        Conversation.session_id == session.id
-    ).count()
+    msg_count = conversation_repo.count_by_session(session.id)
 
     return SessionResponse(
         id=session.id,
@@ -186,13 +140,10 @@ def update_session(
 def delete_session(
     session_id: int,
     user_id: int = Depends(get_current_user_id),
-    db: Session = Depends(get_db)
+    session_repo: SessionRepository = Depends(get_session_repo)
 ):
     """删除会话及其所有对话记录"""
-    session = db.query(ChatSession).filter(
-        ChatSession.id == session_id,
-        ChatSession.user_id == user_id
-    ).first()
+    session = session_repo.get_by_user_and_id(user_id, session_id)
 
     if not session:
         raise HTTPException(
@@ -200,7 +151,6 @@ def delete_session(
             detail="会话不存在"
         )
 
-    db.delete(session)
-    db.commit()
+    session_repo.delete(session_id)
 
     return {"message": "会话已删除"}

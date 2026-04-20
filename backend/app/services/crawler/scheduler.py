@@ -2,19 +2,15 @@
 定时任务调度器
 每日自动爬取数据并更新向量库
 """
-import sys
-import os
-
-# 添加项目根目录到路径
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 import asyncio
+from datetime import datetime
 
 from app.core.config import settings
-from crawler.eastmoney import run_crawler
-from crawler.vectorize import run_vectorize
+from app.services.crawler.eastmoney import run_crawler
+from app.services.crawler.vectorize import run_vectorize
+from app.services.notification import NotificationService
 from app.utils.notification import init_notification_service
 
 
@@ -23,8 +19,6 @@ scheduler = None
 
 async def async_daily_job():
     """异步每日定时任务"""
-    from datetime import datetime
-
     print(f"执行每日定时任务: {datetime.now()}")
 
     # 初始化通知服务

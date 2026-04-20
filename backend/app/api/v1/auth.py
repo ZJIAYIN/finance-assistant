@@ -1,52 +1,23 @@
 """
 认证相关接口
 """
-from datetime import timedelta
-from typing import Optional
-
 from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-from app.core.database import get_db
-from app.core.security import get_current_user_id, decode_token
+from app.schemas import RegisterRequest, LoginRequest, TokenResponse, UserInfo, RefreshRequest
+from app.api.deps import get_db, get_auth_service, get_current_user_id
 from app.services.auth_service import AuthService
+from app.core.security import decode_token
 
 router = APIRouter()
 
 
-# 请求/响应模型
-class RegisterRequest(BaseModel):
-    username: str
-    password: str
-
-
-class LoginRequest(BaseModel):
-    username: str
-    password: str
-
-
-class TokenResponse(BaseModel):
-    access_token: str
-    refresh_token: str
-    token_type: str = "bearer"
-    expires_in: int
-
-
-class UserInfo(BaseModel):
-    id: int
-    username: str
-
-
-class RefreshRequest(BaseModel):
-    refresh_token: str
-
-
 @router.post("/register", response_model=UserInfo)
-def register(request: RegisterRequest, db: Session = Depends(get_db)):
+def register(
+    request: RegisterRequest,
+    auth_service: AuthService = Depends(get_auth_service)
+):
     """用户注册"""
-    auth_service = AuthService(db)
-
     if len(request.username) < 3 or len(request.username) > 20:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -70,9 +41,11 @@ def register(request: RegisterRequest, db: Session = Depends(get_db)):
 
 
 @router.post("/login", response_model=TokenResponse)
-def login(request: LoginRequest, db: Session = Depends(get_db)):
+def login(
+    request: LoginRequest,
+    auth_service: AuthService = Depends(get_auth_service)
+):
     """用户登录"""
-    auth_service = AuthService(db)
     user = auth_service.authenticate(request.username, request.password)
 
     if not user:
@@ -110,8 +83,9 @@ def refresh(request: RefreshRequest):
         )
 
     # 创建新的token
-    auth_service = AuthService(None)  # 不需要db
-    access_token, refresh_token = auth_service.create_tokens(int(user_id))
+    from app.core.security import create_access_token, create_refresh_token
+    access_token = create_access_token(data={"sub": user_id})
+    refresh_token = create_refresh_token(data={"sub": user_id})
 
     return TokenResponse(
         access_token=access_token,
@@ -121,9 +95,11 @@ def refresh(request: RefreshRequest):
 
 
 @router.get("/me", response_model=UserInfo)
-def get_me(user_id: int = Depends(get_current_user_id), db: Session = Depends(get_db)):
+def get_me(
+    user_id: int = Depends(get_current_user_id),
+    auth_service: AuthService = Depends(get_auth_service)
+):
     """获取当前用户信息"""
-    auth_service = AuthService(db)
     user = auth_service.get_user_by_id(user_id)
 
     if not user:

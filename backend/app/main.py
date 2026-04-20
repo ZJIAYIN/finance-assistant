@@ -2,16 +2,13 @@
 金融投资智能助手 - FastAPI后端入口
 """
 import os
-import sys
-
-# 添加项目根目录到路径
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from app.core.config import settings
 from app.core.database import init_db
+from app.core.exceptions import AppException
 from app.api import api_router
 
 
@@ -34,7 +31,15 @@ def create_app() -> FastAPI:
     )
 
     # 注册路由
-    app.include_router(api_router, prefix="/api")
+    app.include_router(api_router)
+
+    # 全局异常处理器
+    @app.exception_handler(AppException)
+    async def app_exception_handler(request: Request, exc: AppException):
+        return JSONResponse(
+            status_code=exc.status_code,
+            content={"code": exc.code, "message": exc.message}
+        )
 
     @app.on_event("startup")
     async def startup_event():
@@ -48,10 +53,6 @@ def create_app() -> FastAPI:
         init_db()
         print("数据库初始化完成")
 
-        # 启动定时任务（如果需要）
-        # from crawler.scheduler import start_scheduler
-        # start_scheduler()
-
     @app.get("/")
     def root():
         return {
@@ -60,10 +61,6 @@ def create_app() -> FastAPI:
             "docs": "/docs"
         }
 
-    @app.get("/health")
-    def health_check():
-        return {"status": "ok"}
-
     return app
 
 
@@ -71,4 +68,4 @@ app = create_app()
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=settings.DEBUG)
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=settings.DEBUG)

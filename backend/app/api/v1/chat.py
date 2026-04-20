@@ -6,26 +6,12 @@ from typing import AsyncGenerator
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import StreamingResponse
-from pydantic import BaseModel
-from sqlalchemy.orm import Session
 
-from app.core.database import get_db
-from app.core.security import get_current_user_id
+from app.schemas import ChatRequest, ChatResponse
+from app.api.deps import get_db, get_current_user_id, get_agent_service
 from app.services.agent_service import AgentService
 
 router = APIRouter()
-
-
-# 请求/响应模型
-class ChatRequest(BaseModel):
-    session_id: int
-    message: str
-
-
-class ChatResponse(BaseModel):
-    answer: str
-    data_date: str
-    retrieved_count: int
 
 
 def sse_format(data: str) -> str:
@@ -37,7 +23,7 @@ def sse_format(data: str) -> str:
 def chat(
     request: ChatRequest,
     user_id: int = Depends(get_current_user_id),
-    db: Session = Depends(get_db)
+    agent_service: AgentService = Depends(get_agent_service)
 ):
     """
     发送消息进行对话（非流式）
@@ -48,8 +34,6 @@ def chat(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="消息不能为空"
         )
-
-    agent_service = AgentService(db)
 
     try:
         result = agent_service.chat(
@@ -74,7 +58,7 @@ def chat(
 async def chat_stream(
     request: ChatRequest,
     user_id: int = Depends(get_current_user_id),
-    db: Session = Depends(get_db)
+    agent_service: AgentService = Depends(get_agent_service)
 ):
     """
     流式对话（SSE）
@@ -85,8 +69,6 @@ async def chat_stream(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="消息不能为空"
         )
-
-    agent_service = AgentService(db)
 
     async def generate() -> AsyncGenerator[str, None]:
         """生成SSE流"""

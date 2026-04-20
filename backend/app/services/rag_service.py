@@ -9,47 +9,19 @@ from typing import List, Dict, Any, Optional, Tuple
 
 import chromadb
 from chromadb.config import Settings as ChromaSettings
-from langchain.schema import Document
-from langchain.embeddings.base import Embeddings
 
 from app.core.config import settings
-from app.services.llm_service import LLMService
-
-
-class DashScopeEmbeddings(Embeddings):
-    """自定义Embedding类，适配DashScope"""
-
-    def __init__(self):
-        self.llm_service = LLMService()
-
-    def embed_documents(self, texts: List[str]) -> List[List[float]]:
-        """批量嵌入文档"""
-        embeddings = []
-        for text in texts:
-            embedding = self.llm_service.get_embedding(text)
-            if embedding:
-                embeddings.append(embedding)
-            else:
-                # 如果失败，返回零向量（不应该发生）
-                embeddings.append([0.0] * 1536)
-        return embeddings
-
-    def embed_query(self, text: str) -> List[float]:
-        """嵌入查询"""
-        embedding = self.llm_service.get_embedding(text)
-        if embedding:
-            return embedding
-        return [0.0] * 1536
+from app.services.embedding_service import DashScopeEmbeddings
 
 
 class RAGService:
+    """RAG检索服务"""
+
     def __init__(self):
         # 初始化ChromaDB客户端
         self.client = chromadb.PersistentClient(
             path=settings.CHROMA_DB_PATH,
-            settings=ChromaSettings(
-                anonymized_telemetry=False
-            )
+            settings=ChromaSettings(anonymized_telemetry=False)
         )
         self.embedding_function = DashScopeEmbeddings()
 
@@ -82,10 +54,13 @@ class RAGService:
         try:
             collection = self.client.create_collection(
                 name=collection_name,
-                metadata={"date": date.strftime("%Y-%m-%d"), "created_at": datetime.now().isoformat()}
+                metadata={
+                    "date": date.strftime("%Y-%m-%d"),
+                    "created_at": datetime.now().isoformat()
+                }
             )
             return collection
-        except Exception as e:
+        except Exception:
             # 如果已存在，直接获取
             return self.client.get_collection(name=collection_name)
 
@@ -151,12 +126,10 @@ class RAGService:
             include=["documents", "distances", "metadatas"]
         )
 
-        # 过滤低相似度的结果（ChromaDB返回的是距离，需要转换）
+        # 过滤低相似度的结果
         documents = []
         if results["documents"] and results["documents"][0]:
             for doc, distance in zip(results["documents"][0], results["distances"][0]):
-                # 简单的相似度转换（距离越小越相似）
-                # 这里可以根据实际情况调整阈值逻辑
                 documents.append(doc)
 
         # 提取日期

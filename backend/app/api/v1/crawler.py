@@ -2,47 +2,23 @@
 爬虫测试接口
 用于手动触发爬虫和查看爬取结果
 """
-from datetime import datetime
+import json
+import os
+from datetime import datetime, timedelta
 from typing import Optional
 
-from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
-from pydantic import BaseModel
+from fastapi import APIRouter, Depends, HTTPException, status
 
-from app.core.security import get_current_user_id
-from crawler.eastmoney import EastMoneyCrawler, run_crawler
-from crawler.vectorize import vectorize_json_data, run_vectorize
+from app.schemas import CrawlTestResponse, VectorizeResponse, CrawlStatusResponse
+from app.api.deps import get_current_user_id
+from app.services.crawler import EastMoneyCrawler, run_crawler, vectorize_json_data
+from app.services.rag_service import RAGService
 
 router = APIRouter()
 
 
-# 响应模型
-class CrawlTestResponse(BaseModel):
-    success: bool
-    message: str
-    data_preview: Optional[dict] = None
-    crawl_time: Optional[str] = None
-    indices_count: int = 0
-    sectors_count: int = 0
-    news_count: int = 0
-
-
-class VectorizeResponse(BaseModel):
-    success: bool
-    message: str
-    date: Optional[str] = None
-    documents_count: int = 0
-
-
-class CrawlStatusResponse(BaseModel):
-    today_crawled: bool
-    today_vectorized: bool
-    latest_collection: Optional[str] = None
-    collections_count: int = 0
-
-
 @router.post("/test", response_model=CrawlTestResponse)
 def test_crawl(
-    background_tasks: BackgroundTasks,
     user_id: int = Depends(get_current_user_id)
 ):
     """
@@ -94,7 +70,6 @@ def test_crawl(
 
 @router.post("/run", response_model=CrawlTestResponse)
 def run_crawl_and_save(
-    background_tasks: BackgroundTasks,
     user_id: int = Depends(get_current_user_id)
 ):
     """
@@ -128,14 +103,11 @@ def run_vectorize_manual(
     手动执行向量化（将昨天的数据向量化入库）
     """
     try:
-        from datetime import timedelta
-
         yesterday = datetime.now() - timedelta(days=1)
         success = vectorize_json_data(yesterday)
 
         if success:
             # 统计向量化文档数
-            from app.services.rag_service import RAGService
             rag = RAGService()
             collection_name = rag.get_collection_name(yesterday)
 
@@ -176,9 +148,6 @@ def get_crawl_status(
     - 今日是否已向量化
     - 最新的collection名称
     """
-    import os
-    from app.services.rag_service import RAGService
-
     today = datetime.now().strftime("%Y-%m-%d")
     yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
 
@@ -214,9 +183,6 @@ def get_crawl_preview(
     """
     查看指定日期的爬取数据详情
     """
-    import json
-    import os
-
     filepath = f"./data/raw/{date}.json"
 
     if not os.path.exists(filepath):

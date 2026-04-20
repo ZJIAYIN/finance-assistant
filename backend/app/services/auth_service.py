@@ -3,9 +3,9 @@
 """
 from datetime import datetime
 from typing import Optional, Tuple
-from sqlalchemy.orm import Session
 
 from app.models import User
+from app.repositories import UserRepository
 from app.core.security import (
     verify_password, get_password_hash,
     create_access_token, create_refresh_token
@@ -13,27 +13,28 @@ from app.core.security import (
 
 
 class AuthService:
-    def __init__(self, db: Session):
-        self.db = db
+    """用户认证服务"""
+
+    def __init__(self, user_repo: UserRepository):
+        self.user_repo = user_repo
 
     def register(self, username: str, password: str) -> Optional[User]:
         """用户注册"""
         # 检查用户名是否已存在
-        existing_user = self.db.query(User).filter(User.username == username).first()
-        if existing_user:
+        if self.user_repo.exists(username):
             return None
 
         # 创建新用户
         password_hash = get_password_hash(password)
-        user = User(username=username, password_hash=password_hash)
-        self.db.add(user)
-        self.db.commit()
-        self.db.refresh(user)
+        user = self.user_repo.create({
+            "username": username,
+            "password_hash": password_hash
+        })
         return user
 
     def authenticate(self, username: str, password: str) -> Optional[User]:
         """用户认证"""
-        user = self.db.query(User).filter(User.username == username).first()
+        user = self.user_repo.get_by_username(username)
         if not user:
             return None
         if not verify_password(password, user.password_hash):
@@ -41,7 +42,7 @@ class AuthService:
 
         # 更新最后登录时间
         user.last_login = datetime.utcnow()
-        self.db.commit()
+        self.user_repo.db.commit()
         return user
 
     def create_tokens(self, user_id: int) -> Tuple[str, str]:
@@ -52,4 +53,4 @@ class AuthService:
 
     def get_user_by_id(self, user_id: int) -> Optional[User]:
         """通过ID获取用户"""
-        return self.db.query(User).filter(User.id == user_id).first()
+        return self.user_repo.get(user_id)

@@ -2,27 +2,28 @@
 Agent服务
 处理对话流程：检索 -> 组装Prompt -> 调用LLM
 """
-from typing import List, Dict, Any, Optional, Generator
+import json
+from typing import List, Dict, Any, Generator, Tuple
 from sqlalchemy.orm import Session
 
-from app.models import Conversation
+from app.repositories import ConversationRepository
 from app.services.rag_service import RAGService
 from app.services.llm_service import LLMService
-from app.core.config import settings
+from app.models import Conversation
 
 
 class AgentService:
-    def __init__(self, db: Session):
+    """对话Agent服务"""
+
+    def __init__(self, db: Session, conversation_repo: ConversationRepository):
         self.db = db
+        self.conversation_repo = conversation_repo
         self.rag_service = RAGService()
         self.llm_service = LLMService()
 
     def get_session_history(self, session_id: int, user_id: int) -> List[Dict[str, str]]:
         """获取会话历史记录"""
-        conversations = self.db.query(Conversation).filter(
-            Conversation.session_id == session_id,
-            Conversation.user_id == user_id
-        ).order_by(Conversation.created_at.asc()).all()
+        conversations = self.conversation_repo.get_by_session(session_id, user_id)
 
         history = []
         for conv in conversations:
@@ -75,7 +76,7 @@ class AgentService:
         user_id: int,
         session_id: int,
         question: str
-    ) -> tuple[List[Dict[str, str]], str, int, bool]:
+    ) -> Tuple[List[Dict[str, str]], str, int, bool]:
         """
         准备对话所需的参数
         返回：(messages, data_date, retrieved_count, has_relevant_data)
@@ -152,7 +153,7 @@ class AgentService:
         user_id: int,
         session_id: int,
         question: str
-    ) -> Generator[tuple[str, bool], None, None]:
+    ) -> Generator[Tuple[str, bool], None, None]:
         """
         流式处理用户提问
         每次yield: (content_chunk, is_done)
@@ -181,7 +182,6 @@ class AgentService:
         self.db.commit()
 
         # 发送完成信号，附带完整信息
-        import json
         done_data = json.dumps({
             "data_date": data_date,
             "retrieved_count": retrieved_count,
